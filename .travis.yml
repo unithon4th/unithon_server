@@ -2,8 +2,7 @@ language: node_js
 node_js:
   - "node"
 before_install:
-  - npm install typescript -g
-  - npm install jest -g
+  - npm install typescript jest -g
 braches:
   only:
     - master
