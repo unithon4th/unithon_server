@@ -6,6 +6,9 @@ This Project is a scaffolding project for typescript node server.
 $ npm install
 ```
 ```bash
+$ npm install -g concurrently
+```
+```bash
 $ npm install -g typescript
 ```
 ```bash
