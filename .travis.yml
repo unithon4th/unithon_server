@@ -2,8 +2,10 @@ language: node_js
 node_js:
   - "node"
 before_install:
-  - npm install typescript jest -g
+  - npm install npm@latest typescript jest -g
 braches:
   only:
     - master
 script: npm test
+
+sudo: required
