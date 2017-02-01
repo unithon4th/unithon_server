@@ -1,6 +1,6 @@
 nguage: node_js
 node_js:
-  - "node"
+  - "7.4.0"
 before_install:
   - npm install jest -g
 braches:
