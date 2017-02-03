@@ -6,18 +6,18 @@
 "use strict";
 /** External dependencies **/
 const express = require("express");
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+let path = require('path');
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let mongoose = require('mongoose');
 /** Mongoose Config **/
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/boilerplate');
 /** Internal dependencies **/
 const index_1 = require("./routes/index");
-var app = express();
+let app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err['status'] = 404;
     next(err);
 });
