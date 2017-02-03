@@ -13,28 +13,66 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 
-let passport = require('passport')
-    , FacebookStrategy = require('passport-facebook').Strategy;
-
-passport.use(new FacebookStrategy({
-      clientID: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-      callbackURL: 'http://www.example.com/auth/facebook/callback'
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOrCreate(..., function(err, user) {
-        if (err) { return done(err); }
-        done(null, user);
-      });
-    }
-));
-
-
-
-
 /** Mongoose Config **/
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/boilerplate');
+
+import * as passport from 'passport';
+import * as session from 'express-session';
+let FacebookStrategy = require('passport-facebook').Strategy;
+let LocalStrategy = require('passport-local').Strategy;
+
+/** Intern al dependencies **/
+import {UserModel} from './services/dbModel';
+import UserService from './services/userService';
+import CONFIG from './config';
+
+
+// Todo : passport Configuration 파일 분할
+passport.use(new FacebookStrategy({
+      clientID: CONFIG.FACEBOOK_CLIENT_ID,
+      clientSecret: CONFIG.FACEBOOK_CLIENT_SECRET,
+      callbackURL: CONFIG.FACEBOOK_REDIRECT_URL
+    },
+    function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    // Todo : Facebook auth 성공시 createOrUpdate
+    // UserModel.findOneAndUpdate({username: '123'})
+    /*
+    User.findOrCreate(..., function(err, user) {
+        if (err) { return done(err); }
+        done(null, user);
+    });
+    */
+    }
+));
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        UserModel.findOne({ username: username }, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            UserService._verifyPassword(password, user.password).then(res => {
+                if (!res) return done(null, false, { message: 'Incorrect password.' });
+                return done(null, user);
+            });
+        });
+    })
+);
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(id, done) {
+    UserService.readUser(id).then((user) => {
+        done(null, user);
+    }).catch((err) => {
+        done(err, 'error');
+    });
+});
 
 /** Internal dependencies **/
 import index from './routes/index';
@@ -47,9 +85,18 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(session({
+    secret: CONFIG.SESSION_SECRET_KEY,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
