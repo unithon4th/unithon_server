@@ -37,7 +37,7 @@ class ChatService {
         return new Promise((resolve, reject) => {
             new dbModel_1.ChatModel({
                 chatSeqNo: this.makeId(),
-                timestamp: Math.floor(Date.now() / 1000),
+                timestamp: Date.now(),
                 fromId: fromId,
                 toId: toId,
                 chatText: chatText

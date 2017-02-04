@@ -42,12 +42,12 @@ export default class ChatService {
         });
     }
 
-    static createChat(fromId, toId, chatText){
+    static createChat(fromId, toId, chatText) {
         return new Promise((resolve, reject) => {
             new ChatModel(
                 {
                     chatSeqNo: this.makeId(),
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
                     fromId: fromId,
                     toId: toId,
                     chatText: chatText

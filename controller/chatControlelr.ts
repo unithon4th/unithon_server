@@ -5,8 +5,10 @@ let unknownChatList = [
     '방금 하신 말씀을 잘 못 알아들었어요.',
     '죄송해요. 다시 들려 주실래요?',
     '제가 제대로 이해하지 못한것 같아요. 죄송해요.',
+    '제가 제대로 이해하고 있는지 잘 모르겠어요.',
     '조금 헷갈리는데요.',
-    '마지막에 말씀을 잘 못 이해 한것 같아요.'
+    '마지막에 말씀을 잘 못 이해 한것 같아요.',
+    '죄송해요. 다시 들려 주실래요?',
 ];
 
 let dontKnowList = [
@@ -17,7 +19,7 @@ let dontKnowList = [
     '죄송하다보탑 모르겠다보탑'
 ];
 
-let randNumArr = [1, 2, 3, 4, 5, 6];
+let randNumArr = [1, 2, 3, 4, 5, 6, 7];
 
 export default class ChatController {
     constructor() {
@@ -27,9 +29,9 @@ export default class ChatController {
     static add(userId, chatText) {
         return new Promise((resolve, reject) => {
             ChatService.addChat(userId, chatText).then((data) => {
-                for (let value of unknownChatList) { // 모르는 말이 나왔을때
-                    if (value === data['result']['speech']) {
-                        data['result']['speech'] = dontKnowList[Math.floor(Math.random() * randNumArr.length)];
+                for (let i = 0; i < unknownChatList.length; i++) {
+                    if (unknownChatList[i] === data['result']['speech']) {
+                        data['result']['speech'] = dontKnowList[Math.floor(Math.random() * dontKnowList.length)];
                         data['result']['category'] = '다보탑';
                         break;
                     }

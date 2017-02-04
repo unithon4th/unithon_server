@@ -85,7 +85,7 @@ class BankService {
                                 fromId: userId,
                                 toId: toId,
                                 amount: amount,
-                                timestamp: Math.floor(Date.now() / 1000)
+                                timestamp: Date.now()
                             }
                         }
                     }).then(() => {
@@ -98,7 +98,7 @@ class BankService {
                                     fromId: toId,
                                     toId: userId,
                                     amount: amount,
-                                    timestamp: Math.floor(Date.now() / 1000)
+                                    timestamp: Date.now()
                                 }
                             }
                         }).then(() => {
@@ -125,7 +125,7 @@ class BankService {
                             fromId: userId,
                             toId: userId,
                             amount: amount,
-                            timestamp: Math.floor(Date.now() / 1000)
+                            timestamp: Date.now()
                         }
                     }
                 }).then(() => {
