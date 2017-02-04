@@ -11,9 +11,13 @@ export default class BankController {
         return BankService.read(userId);
 
     }
+
+    static withdraw(fromId, toId, amount){
+        return BankService.withdraw(fromId, toId, amount);
+    }
     
-    static deposit(fromId, toId, amount){
-        return BankService.deposit(fromId, toId, amount);
+    static deposit(userId, amount){
+        return BankService.deposit(userId, amount);
 
     }
 

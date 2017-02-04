@@ -39,8 +39,10 @@ let BankSchema = new mongoose_1.Schema({
     records: [
         {
             recordId: {
-                type: String,
-                unique: true
+                type: String
+            },
+            timestamp: {
+                type: Number
             },
             fromId: {
                 type: String

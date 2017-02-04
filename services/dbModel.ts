@@ -41,8 +41,10 @@ let BankSchema: Schema = new Schema({
     records: [
         {
             recordId : {
-                type: String,
-                unique: true
+                type: String
+            },
+            timestamp:{
+                type: Number
             },
             fromId: {
                 type: String
@@ -117,6 +119,7 @@ let UserSchema: Schema = new Schema({
 interface IBank extends Document {
     accountId: string;
     userId: string;
+    timestampp : number;
     records: any[];
 }
 

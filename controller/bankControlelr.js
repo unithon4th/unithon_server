@@ -7,8 +7,11 @@ class BankController {
     static read(userId) {
         return bankService_1.default.read(userId);
     }
-    static deposit(fromId, toId, amount) {
-        return bankService_1.default.deposit(fromId, toId, amount);
+    static withdraw(fromId, toId, amount) {
+        return bankService_1.default.withdraw(fromId, toId, amount);
+    }
+    static deposit(userId, amount) {
+        return bankService_1.default.deposit(userId, amount);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

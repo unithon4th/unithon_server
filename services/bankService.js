@@ -31,15 +31,29 @@ class BankService {
                 console.log(data);
                 if (data == null) {
                     this.initBank(userId).then(() => {
-                        console.log('1');
                         this.getBankInfo(userId).then(() => {
-                            console.log('2');
                             resolve(this.getBankInfo(userId));
                         });
                     });
                 }
                 else {
-                    resolve(data);
+                    var money = 0;
+                    for (var i = 0; i < data['records'].length; i++) {
+                        if (data['records'][i]['amount'] == null)
+                            continue;
+                        if (data['records'][i]['toId'] == userId) {
+                            money += data['records'][i]['amount'];
+                        }
+                        else {
+                            money -= data['records'][i]['amount'];
+                        }
+                    }
+                    var result = JSON.parse(JSON.stringify(data));
+                    console.log(result);
+                    result['money'] = money;
+                    console.log(money);
+                    console.log(result);
+                    resolve(result);
                 }
             });
         });
@@ -51,10 +65,72 @@ class BankService {
             });
         });
     }
-    static deposit(userId, toId, amount) {
+    static withdraw(userId, toId, amount) {
         return new Promise((resolve, reject) => {
-            this.getBankInfo(userId);
-            resolve('hi');
+            this.getBankInfo(userId).then((data) => {
+                if (data['money'] < amount) {
+                    reject({
+                        errmsg: 'not enough money'
+                    });
+                }
+                else {
+                    var recordSendId = this.makeId();
+                    var recordRecvId = this.makeId();
+                    dbModel_1.BankModel.update({
+                        userId: userId
+                    }, {
+                        $push: {
+                            'records': {
+                                recordId: recordSendId,
+                                fromId: userId,
+                                toId: toId,
+                                amount: amount,
+                                timestamp: Math.floor(Date.now() / 1000)
+                            }
+                        }
+                    }).then(() => {
+                        dbModel_1.BankModel.update({
+                            userId: toId
+                        }, {
+                            $push: {
+                                'records': {
+                                    recordId: recordRecvId,
+                                    fromId: toId,
+                                    toId: userId,
+                                    amount: amount,
+                                    timestamp: Math.floor(Date.now() / 1000)
+                                }
+                            }
+                        }).then(() => {
+                            resolve({
+                                'recoredSendId': recordSendId,
+                                'recordRecvId': recordRecvId
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    }
+    static deposit(userId, amount) {
+        return new Promise((resolve, reject) => {
+            this.getBankInfo(userId).then((data) => {
+                dbModel_1.BankModel.update({
+                    userId: userId
+                }, {
+                    $push: {
+                        'records': {
+                            recordId: this.makeId(),
+                            fromId: userId,
+                            toId: userId,
+                            amount: amount,
+                            timestamp: Math.floor(Date.now() / 1000)
+                        }
+                    }
+                }).then(() => {
+                    resolve();
+                });
+            });
         });
     }
     static makeId() {
