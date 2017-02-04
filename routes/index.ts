@@ -22,6 +22,7 @@ router.get('/', MainRouter);
 
 // User CRUD Logic
 router.post('/bank/read', BankRouter.read);
+router.post('/bank/withdraw', BankRouter.withdraw);
 router.post('/bank/deposit', BankRouter.deposit);
 router.post('/chat/read', ChatRouter.read);
 router.post('/chat/add', ChatRouter.add);

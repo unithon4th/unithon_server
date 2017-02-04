@@ -7,25 +7,6 @@
 /** External dependencies **/
 const mongoose_1 = require("mongoose");
 /** Internal dependencies **/
-let RecordSchema = new mongoose_1.Schema({
-    recordId: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    fromId: {
-        type: String,
-        required: true
-    },
-    toId: {
-        type: String,
-        required: true
-    },
-    amount: {
-        type: Number,
-        required: true
-    }
-});
 let BankSchema = new mongoose_1.Schema({
     accountId: {
         type: String,
@@ -39,8 +20,10 @@ let BankSchema = new mongoose_1.Schema({
     records: [
         {
             recordId: {
-                type: String,
-                unique: true
+                type: String
+            },
+            timestamp: {
+                type: Number
             },
             fromId: {
                 type: String

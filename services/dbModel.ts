@@ -8,31 +8,12 @@
 import {Document, model, Model, Schema} from 'mongoose';
 
 /** Internal dependencies **/
-let RecordSchema: Schema = new Schema({
-    recordId : {
-        type: String,
-        required: true,
-        unique: true
-    },
-    fromId:{
-        type: String,
-        required: true 
-    },
-    toId:{
-        type: String,
-        required: true 
-    },
-    amount:{
-        type:Number,
-        required: true
-    }
-})
 
 let BankSchema: Schema = new Schema({
     accountId: {
         type: String,
         required: true,
-        unique: true 
+        unique: true
     },
     userId:{
         type: String,
@@ -41,8 +22,10 @@ let BankSchema: Schema = new Schema({
     records:[
         {
             recordId : {
-                type: String,
-                unique: true
+                type: String
+            },
+            timestamp:{
+                type: Number
             },
             fromId:{
                 type: String
@@ -101,6 +84,7 @@ let UserSchema: Schema = new Schema({
 interface IBank extends Document {
     accountId: string;
     userId: string;
+    timestampp : number;
     records: any[];
 }
 

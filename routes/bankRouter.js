@@ -15,17 +15,33 @@ const BankRouter = {
                 res: 'success',
                 data: data
             });
+        }).catch((err) => {
+            res.status(500).json({ errmsg: err.errmsg });
+        });
+    },
+    withdraw(req, res) {
+        var userId = req.body.userId;
+        var toId = req.body.toId;
+        var amount = req.body.amount;
+        bankControlelr_1.default.withdraw(userId, toId, amount).then((data) => {
+            res.status(200).json({
+                res: 'success',
+                data: data
+            });
+        }).catch((err) => {
+            res.status(500).json({ errmsg: err.errmsg });
         });
     },
     deposit(req, res) {
         var userId = req.body.userId;
         var toId = req.body.toId;
         var amount = req.body.amount;
-        bankControlelr_1.default.deposit(userId, toId, amount).then((data) => {
+        bankControlelr_1.default.deposit(userId, amount).then((data) => {
             res.status(200).json({
-                res: 'success',
-                data: data
+                res: 'success'
             });
+        }).catch((err) => {
+            res.status(500).json({ errmsg: err.errmsg });
         });
     }
 };
