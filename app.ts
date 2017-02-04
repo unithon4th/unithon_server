@@ -16,7 +16,7 @@ let mongoose = require('mongoose');
 /** Mongoose Config **/
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://yoohoogun114:lxc4cEdjtMTn68iCXjTSyU5GXI5hkIsPtQSSFetH2ntSIsPgD7dDIBMdmcJ4TZ4PgdKOy7banj7w7svT9vqP3g==@yoohoogun114.documents.azure.com:10250/?ssl=true');
-//mongoose.connect('mongodb://localhost/boilerplate');
+// mongoose.connect('mongodb://localhost/boilerplate');
 
 import * as passport from 'passport';
 import * as session from 'express-session';

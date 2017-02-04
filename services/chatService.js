@@ -13,9 +13,9 @@ class ChatService {
     constructor() {
     }
     static makeId() {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < 64; i++)
+        let text = '';
+        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < 64; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
     }
@@ -24,9 +24,9 @@ class ChatService {
             this.createChat(userId, 'bot', chatText).then(() => {
                 this.executeNlp(chatText).then((nlpResult) => {
                     console.log(nlpResult);
-                    console.log("speech : " + nlpResult['result']['speech']);
+                    console.log('speech : ' + nlpResult['result']['speech']);
                     this.createChat('bot', userId, nlpResult['result']['speech']).then(() => {
-                        console.log("hihihi");
+                        console.log('hihihi');
                         resolve(nlpResult);
                     });
                 });
@@ -63,7 +63,7 @@ class ChatService {
             }, (error, response, body) => {
                 console.log(body);
                 console.log(response.statusCode);
-                if (!error && response.statusCode == 200) {
+                if (!error && response.statusCode === 200) {
                     resolve(JSON.parse(body));
                 }
                 else {

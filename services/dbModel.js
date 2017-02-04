@@ -42,7 +42,7 @@ let BankSchema = new mongoose_1.Schema({
                 type: String
             },
             timestamp: {
-                type: Number
+                type: Date
             },
             fromId: {
                 type: String
@@ -63,7 +63,7 @@ let ChatSchema = new mongoose_1.Schema({
         unique: true
     },
     timestamp: {
-        type: Number,
+        type: Date,
         required: true
     },
     fromId: {

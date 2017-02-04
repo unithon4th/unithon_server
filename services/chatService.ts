@@ -15,32 +15,29 @@ import CONFIG from './../config';
 export default class ChatService {
 
     constructor() {
-         
     }
 
-    static makeId()
-    {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    static makeId() {
+        let text = '';
+        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-        for( var i=0; i < 64; i++ )
+        for ( let i = 0; i < 64; i++ )
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
         return text;
     }
 
-    static addChat(userId, chatText){
+    static addChat(userId, chatText) {
         return new Promise((resolve, reject) => {
             this.createChat(userId, 'bot', chatText).then(() => {
                 this.executeNlp(chatText).then((nlpResult) => {
                     console.log(nlpResult);
-                    console.log("speech : "+ nlpResult['result']['speech']);
+                    console.log('speech : ' + nlpResult['result']['speech']);
                     this.createChat('bot', userId, nlpResult['result']['speech']).then(() => {
-                    console.log("hihihi");
-                        resolve(nlpResult);                
+                    console.log('hihihi');
+                        resolve(nlpResult);
                     });
-                })
-
+                });
             });
         });
     }
@@ -50,7 +47,7 @@ export default class ChatService {
             new ChatModel(
                 {
                     chatSeqNo: this.makeId(),
-                    timestamp: Math.floor(Date.now() / 1000),
+                    timestamp: Date.now()
                     fromId: fromId,
                     toId: toId,
                     chatText: chatText
@@ -59,7 +56,7 @@ export default class ChatService {
                 resolve();
             }).catch((err) => {
                 reject(err);
-            })
+            });
         });
     }
 
@@ -74,23 +71,21 @@ export default class ChatService {
                     qs: {
                         'query': chatText,
                         'lang': 'kr',
-                        'sessionId': '1234' 
+                        'sessionId': '1234'
                     }
                 },
                 (error, response, body) => {
-                    console.log(body)
-                    console.log(response.statusCode)
-                    if (!error && response.statusCode == 200){
-                        resolve(JSON.parse(body))
+                    console.log(body);
+                    console.log(response.statusCode);
+                    if (!error && response.statusCode === 200) {
+                        resolve(JSON.parse(body));
                     }
-                    else{
-                        reject(error)
+                    else {
+                        reject(error);
                     }
                 }
             );
-            
-        }) 
-            
+        });
     }
 
     static readUser(userId) {
@@ -107,6 +102,5 @@ export default class ChatService {
                 ]
             }
         );
-        
     }
 }

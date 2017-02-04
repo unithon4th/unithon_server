@@ -43,8 +43,8 @@ let BankSchema: Schema = new Schema({
             recordId : {
                 type: String
             },
-            timestamp:{
-                type: Number
+            timestamp: {
+                type: Date
             },
             fromId: {
                 type: String
@@ -66,7 +66,7 @@ let ChatSchema: Schema = new Schema({
         unique: true
     },
     timestamp: {
-        type: Number,
+        type: Date,
         required: true
     },
     fromId: {
@@ -119,7 +119,7 @@ let UserSchema: Schema = new Schema({
 interface IBank extends Document {
     accountId: string;
     userId: string;
-    timestampp : number;
+    timestamp: Date;
     records: any[];
 }
 
@@ -142,7 +142,7 @@ interface IUser extends Document {
 
 interface IChat extends Document {
     chatSeqNo: string;
-    timestamp: number;
+    timestamp: Date;
     fromId: string;
     toId: string;
     chatText: string;

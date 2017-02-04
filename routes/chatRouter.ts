@@ -10,7 +10,7 @@
 import ChatController from './../controller/chatControlelr';
 
 const ChatRouter = {
-    add(req, res){
+    add(req, res) {
         let userId = req.body.userId;
         let chatText = req.body.chatText;
 
@@ -31,7 +31,7 @@ const ChatRouter = {
         });
     },
     read(req, res) {
-        let userId = req.body.userId
+        let userId = req.body.userId;
         ChatController.readChat(userId).then((user) => {
             res.status(200).json({res: user});
         }).catch((err) => {
