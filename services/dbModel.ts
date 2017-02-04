@@ -8,11 +8,93 @@
 import {Document, model, Model, Schema} from 'mongoose';
 
 /** Internal dependencies **/
+let RecordSchema: Schema = new Schema({
+    recordId : {
+        type: String,
+        required: true,
+        unique: true
+    },
+<<<<<<< Updated upstream
+    fromId:{
+        type: String,
+        required: true 
+    },
+    toId:{
+        type: String,
+        required: true 
+    },
+    amount:{
+        type:Number,
+=======
+    fromId: {
+        type: String,
+        required: true
+    },
+    toId: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+>>>>>>> Stashed changes
+        required: true
+    }
+})
 
-/*
- user = new UserModel({
- nickname: obj.nickname,});
- */
+let BankSchema: Schema = new Schema({
+    accountId: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    userId: {
+        type: String,
+        required: true
+    },
+    records: [
+        {
+            recordId : {
+                type: String,
+                unique: true
+            },
+            fromId: {
+                type: String
+            },
+            toId: {
+                type: String
+            },
+            amount: {
+                type: Number
+            }
+        }
+    ]
+});
+
+let ChatSchema: Schema = new Schema({
+    chatSeqNo: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    timestamp: {
+        type: Number,
+        required: true
+    },
+    fromId: {
+        type: String,
+        required: true
+    },
+    toId: {
+        type: String,
+        required: true
+    },
+    chatText: {
+        type: String,
+        required: true
+    }
+
+
+});
 
 let UserSchema: Schema = new Schema({
     username: {
@@ -42,6 +124,12 @@ let UserSchema: Schema = new Schema({
     // data: [Schema.Types.Mixed]
 });
 
+interface IBank extends Document {
+    accountId: string;
+    userId: string;
+    records: any[];
+}
+
 interface IUser extends Document {
     username: string;
     name: string;
@@ -56,4 +144,14 @@ interface IUser extends Document {
     // data: any[];
 }
 
+interface IChat extends Document {
+    chatSeqNo: string;
+    timestamp: number;
+    fromId: string;
+    toId: string;
+    chatText: string;
+}
+
 export let UserModel: Model<IUser> = model<IUser>('User', UserSchema);
+export let ChatModel: Model<IChat> = model<IChat>('Chat', ChatSchema);
+export let BankModel: Model<IBank> = model<IBank>('Bank', BankSchema);
