@@ -14,18 +14,6 @@ let RecordSchema: Schema = new Schema({
         required: true,
         unique: true
     },
-<<<<<<< Updated upstream
-    fromId:{
-        type: String,
-        required: true 
-    },
-    toId:{
-        type: String,
-        required: true 
-    },
-    amount:{
-        type:Number,
-=======
     fromId: {
         type: String,
         required: true
@@ -36,7 +24,6 @@ let RecordSchema: Schema = new Schema({
     },
     amount: {
         type: Number,
->>>>>>> Stashed changes
         required: true
     }
 })
