@@ -18,7 +18,7 @@ const authMiddleware_1 = require("./../middleware/authMiddleware");
 let router = express.Router();
 router.get('/', mainRouter_1.default);
 // User CRUD Logic
-router.post('/bank/read', bankRouter_1.default.read);
+router.get('/bank/read', bankRouter_1.default.read);
 router.post('/bank/withdraw', bankRouter_1.default.withdraw);
 router.post('/bank/deposit', bankRouter_1.default.deposit);
 router.post('/chat/read', chatRouter_1.default.read);
