@@ -12,7 +12,8 @@ import BankController from './../controller/bankControlelr';
 const BankRouter = {
 
     read(req, res) {
-        var userId = req.params.userId;
+        console.log(req.query);
+        var userId = req.query.userId;
         BankController.read(userId).then((data) => {
             res.status(200).json(
                 {
