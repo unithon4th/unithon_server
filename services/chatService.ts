@@ -11,7 +11,7 @@ let bcrypt = require('bcrypt');
 import {UserModel} from './dbModel';
 import CONFIG from './../config';
 
-export default class UserService {
+export default class ChatService {
 
     constructor() {
         

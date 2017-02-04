@@ -9,6 +9,7 @@ import * as express from 'express';
 import * as passport from 'passport';
 
 /** Internal dependencies **/
+import ChatRouter from './chatRouter';
 import UserRouter from './userRouter';
 import MainRouter from './mainRouter';
 import AuthRouter from './authRouter';
@@ -19,6 +20,8 @@ let router = express.Router();
 router.get('/', MainRouter);
 
 // User CRUD Logic
+router.post('/chat/add', ChatRouter.add);
+router.post('/chat/test', ChatRouter.test);
 router.post('/auth/signup', UserRouter.create);
 router.get('/user/:id', UserRouter.read); // Todo: Only dev test
 router.put('/user/:id', UserRouter.update);
