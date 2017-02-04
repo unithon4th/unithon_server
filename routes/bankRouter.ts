@@ -29,16 +29,21 @@ const BankRouter = {
         var userId = req.body.userId;
         var toId = req.body.toId;
         var amount = req.body.amount;
-        BankController.withdraw(userId, toId, amount).then((data) => {
-            res.status(200).json(
-                {
-                    res: 'success',
-                    data: data
-                }
-            );    
-        }).catch((err) => {
-            res.status(500).json({errmsg: err.errmsg});
-        });
+        if(userId == toId){
+            res.status(500).json({errmsg: "you can't send it to yourself"});
+        }
+        else{
+            BankController.withdraw(userId, toId, amount).then((data) => {
+                res.status(200).json(
+                    {
+                        res: 'success',
+                        data: data
+                    }
+                );    
+            }).catch((err) => {
+                res.status(500).json({errmsg: err.errmsg});
+            });
+        }
     },
     deposit(req, res) {
         var userId = req.body.userId;
@@ -47,7 +52,8 @@ const BankRouter = {
         BankController.deposit(userId, amount).then((data) => {
             res.status(200).json(
                 {
-                    res: 'success'
+                    res: 'success',
+                    data: data
                 }
             );    
         }).catch((err) => {

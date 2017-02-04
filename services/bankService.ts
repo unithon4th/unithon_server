@@ -129,7 +129,8 @@ export default class BankService {
                         ).then(() => {
                             resolve({
                                 'recoredSendId': recordSendId,
-                                'recordRecvId':recordRecvId
+                                'recordRecvId':recordRecvId,
+                                'totalAmount': parseInt(data['money'])-parseInt(amount)
                             })
                         });
                     });
@@ -161,7 +162,7 @@ export default class BankService {
                         }
                     }
                 ).then(() => {
-                    resolve()
+                    resolve(parseInt(data['money'])+parseInt(amount))
                 });
             });
 
