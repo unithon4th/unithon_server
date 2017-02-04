@@ -7,7 +7,7 @@
 /** External dependencies **/
 /** Internal dependencies **/
 function MainRouter(req, res) {
-    res.status(200).json({ res: 'success' });
+    res.status(200).json({ res: 'success ' + 'unithon' + ' dev' + ' auto deploy!' });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MainRouter;

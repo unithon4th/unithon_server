@@ -11,12 +11,11 @@ import UserController from './../controller/userControlelr';
 
 const UserRouter = {
     create(req, res) {
-        let username = req.body.username;
-        let password = req.body.password;
-        UserController.createUser(username, password).then(() => {
+        let body = req.body;
+        UserController.createUser(body).then(() => {
             res.status(200).json({res: 'success'});
         }).catch((err) => {
-            res.status(500).json({errmsg: err});
+            res.status(500).json({res: err});
         });
     },
     read(req, res) {
@@ -24,7 +23,7 @@ const UserRouter = {
         UserController.readUser(userID).then((user) => {
             res.status(200).json({res: user});
         }).catch((err) => {
-            res.status(500).json({errmsg: err.errmsg});
+            res.status(500).json({res: err.errmsg});
         });
     },
     update(req, res) {
@@ -33,7 +32,7 @@ const UserRouter = {
         UserController.updateUser(userID, user).then((user) => {
             res.status(200).json({res: user});
         }).catch((err) => {
-            res.status(500).json({errmsg: err.errmsg});
+            res.status(500).json({res: err.errmsg});
         });
     },
     delete(req, res) {
@@ -41,7 +40,7 @@ const UserRouter = {
         UserController.deleteUser(userID).then((user) => {
             res.status(200).json({res: user});
         }).catch((err) => {
-            res.status(500).json({errmsg: err.errmsg});
+            res.status(500).json({res: err.errmsg});
         });
     },
 };

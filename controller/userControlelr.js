@@ -6,22 +6,29 @@
 "use strict";
 /** External dependencies **/
 /** Internal dependencies **/
-const userService_1 = require("./../services/userService");
-class UserController {
+const authService_1 = require("./../services/authService");
+class AuthController {
     constructor() {
     }
-    static createUser(username, password) {
-        return userService_1.default.createUser(username, password);
+    // Todo: used by naver auth and local auth both. need to divde function
+    static createUser(_obj) {
+        let obj = {
+            username: _obj.username,
+            password: _obj.password,
+            bank: _obj.bank,
+            account: _obj.account
+        };
+        return authService_1.default.createUser(obj);
     }
     static readUser(id) {
-        return userService_1.default.readUser(id);
+        return authService_1.default.readUser(id);
     }
     static updateUser(userID, user) {
-        return userService_1.default.updateUser(userID, user);
+        return authService_1.default.updateUser(userID, user);
     }
     static deleteUser(id) {
-        return userService_1.default.deleteUser(id);
+        return authService_1.default.deleteUser(id);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = UserController;
+exports.default = AuthController;

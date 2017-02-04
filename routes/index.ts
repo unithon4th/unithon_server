@@ -12,6 +12,7 @@ import * as passport from 'passport';
 import UserRouter from './userRouter';
 import MainRouter from './mainRouter';
 import AuthRouter from './authRouter';
+import MailRouter from './mailRouter';
 import AuthMiddleware from './../middleware/authMiddleware';
 
 let router = express.Router();
@@ -26,6 +27,7 @@ router.delete('/user/:id', UserRouter.delete); // Todo: Only dev test
 
 // Auth Router
 router.get('/auth/login', AuthRouter.login); // send facebook auth link
+router.get('/auth/login/alert', AuthRouter.loginAlert);
 router.get('/auth/success', AuthMiddleware.userAuthenticated, AuthRouter.success); // success redirect for facebook auth
 router.get('/auth/fail', AuthRouter.fail);
 router.post('/auth/login', // local auth router
@@ -34,6 +36,19 @@ router.post('/auth/login', // local auth router
         failureRedirect: '/auth/fail',
         failureFlash: false })
 );
+
+router.get('/naver', function(req, res) {
+        res.sendFile('public/html/naver.html', {root: __dirname + './../' });
+});
+
+router.get('/auth/naver/success', function(req, res) {
+        res.sendFile('public/html/callback.html', {root: __dirname + './../' });
+});
+
+router.post('/auth/naver', AuthMiddleware.userNaverAuthenticated, AuthRouter.naver);
+
+// Mail Router
+router.post('/email', AuthMiddleware.userAuthenticated, MailRouter.send);
 
 // Facebook CRUD Logic
 router.get('/auth/facebook', passport.authenticate('facebook'));
