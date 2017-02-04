@@ -26,7 +26,7 @@ let RecordSchema: Schema = new Schema({
         type: Number,
         required: true
     }
-})
+});
 
 let BankSchema: Schema = new Schema({
     accountId: {
@@ -103,6 +103,9 @@ let UserSchema: Schema = new Schema({
         type: Number,
         required: true,
     },
+    accessToken: String,
+    refreshToken: String,
+    tokenType: String,
     profile_image: String,
     gender: String,
     naverId: String,
@@ -119,16 +122,19 @@ interface IBank extends Document {
 
 interface IUser extends Document {
     username: string;
-    name: string;
     password: string;
+    name: string;
     age: string;
     bank: string;
     account: number;
-    profile_image: number;
+    accessToken: string;
+    refreshToken: string;
+    tokenType: string;
+    profile_image: string;
     gender: string;
     naverId: string;
     birthday: string;
-    // data: any[];
+    nickname: string;
 }
 
 interface IChat extends Document {

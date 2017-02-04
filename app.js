@@ -58,6 +58,7 @@ passport.serializeUser(function (user, done) {
     done(null, user);
 });
 passport.deserializeUser(function (id, done) {
+    console.log(id);
     authService_1.default.readUser(id).then((user) => {
         done(null, user);
     }).catch((err) => {

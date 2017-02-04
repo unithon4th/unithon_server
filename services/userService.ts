@@ -33,8 +33,8 @@ export default class UserService {
         return UserModel.findOne({_id: id});
     }
 
-    static updateUser(userID, user) {
-        return UserModel.update({_id: userID}, {username: user.username});
+    static updateUser(username, accessToken) {
+        return UserModel.update({username: username}, {accessToken: accessToken});
     }
 
     static deleteUser(id) {

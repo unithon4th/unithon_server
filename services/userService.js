@@ -27,8 +27,8 @@ class UserService {
     static readUser(id) {
         return dbModel_1.UserModel.findOne({ _id: id });
     }
-    static updateUser(userID, user) {
-        return dbModel_1.UserModel.update({ _id: userID }, { username: user.username });
+    static updateUser(username, accessToken) {
+        return dbModel_1.UserModel.update({ username: username }, { accessToken: accessToken });
     }
     static deleteUser(id) {
         return dbModel_1.UserModel.remove({ _id: id });

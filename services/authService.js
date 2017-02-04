@@ -6,8 +6,10 @@
 "use strict";
 /** External dependencies **/
 let bcrypt = require('bcrypt');
+let request = require('request');
 /** Internal dependencies **/
 const requestService_1 = require("./requestService");
+const userService_1 = require("./userService");
 const dbModel_1 = require("./dbModel");
 const config_1 = require("./../config");
 class AuthService {
@@ -41,16 +43,25 @@ class AuthService {
             this.findUserByUsername(obj.username).then((user) => {
                 if (user) {
                     console.log(config_1.default.NAVER_API_PROFILE);
-                    console.log(obj.token);
-                    AuthService.getUserInfoByNaver(config_1.default.NAVER_API_PROFILE, obj.token).then((body) => {
-                        if (body.hasOwnProperty('message') && body['message'] === 'success') {
-                            resolve('login success by naver'); // 로그인 성공 Todo: 바꿔야함 비밀번호, 정보 업데이트 되도록
-                        }
-                        else {
-                            reject(body); // 실패 => 가입
-                        }
-                    }).catch((err) => {
-                        return reject(err);
+                    console.log(obj.accessToken);
+                    this._refreshToken(obj.accessToken, config_1.default.NAVER_API_CLIENT_ID, config_1.default.NAVER_API_CLIENT_SECRET, obj.refreshToken, obj.username).then((refreshedObj) => {
+                        console.log('=============Refreshed Token============');
+                        console.log(refreshedObj['access_token']);
+                        console.log('=============Refreshed Token============');
+                        AuthService.getUserInfoByNaver(config_1.default.NAVER_API_PROFILE, refreshedObj['access_token']).then((body) => {
+                            if (body.hasOwnProperty('message') && body['message'] === 'success') {
+                                user.password = undefined;
+                                user.accessToken = undefined;
+                                user.refreshToken = undefined;
+                                user.tokenType = undefined;
+                                resolve(user); // 로그인 성공 Todo: 바꿔야함 비밀번호, 정보 업데이트 되도록
+                            }
+                            else {
+                                reject(body); // 실패 => 가입
+                            }
+                        }).catch((err) => {
+                            return reject(err);
+                        });
                     });
                 }
                 else {
@@ -123,6 +134,29 @@ class AuthService {
         return new Promise((resolve, reject) => {
             bcrypt.compare(plainPassword, hash).then((res) => {
                 resolve(res);
+            });
+        });
+    }
+    static _refreshToken(grant_type, client_id, client_secret, refresh_token, username) {
+        return new Promise((resolve, reject) => {
+            let options = { method: 'GET',
+                url: 'https://nid.naver.com/oauth2.0/token',
+                qs: { grant_type: grant_type,
+                    client_id: client_id,
+                    client_secret: client_secret,
+                    refresh_token: refresh_token },
+                headers: { 'cache-control': 'no-cache',
+                    'content-type': 'application/json' } };
+            request(options, function (error, response, body) {
+                if (error)
+                    reject(error);
+                console.log(body);
+                let parsedBody = JSON.parse(body);
+                userService_1.default.updateUser(username, body['accessToken']).then(() => {
+                    resolve(parsedBody);
+                }).catch((err) => {
+                    reject(err);
+                });
             });
         });
     }

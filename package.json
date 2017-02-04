@@ -31,11 +31,10 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-    "request": "^2.79.0",
+    "request": "~2.79.0",
     "serve-favicon": "~2.3.0",
     "ts-jest": "^18.0.2",
-    "typescript": "^2.1.5",
-    "request":"~2.79.0"
+    "typescript": "^2.1.5"
   },
   "devDependencies": {
     "@types/jest": "^18.1.1",

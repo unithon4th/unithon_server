@@ -18,7 +18,8 @@ const AuthRouter = {
     },
     success(req, res) {
         let user = req.user;
-        res.status(200).json({res: 'success login with ' + user.username});
+        user.password = undefined;
+        res.status(200).json({res: user});
     },
     fail(req, res) {
         res.status(500).json({res: 'login failed'});
@@ -27,17 +28,21 @@ const AuthRouter = {
         res.status(500).json({res: 'need to login'});
     },
     naver(req, res) {
-        let token = req.body.token;
+        let accessToken = req.body.accessToken;
+        let refreshToken = req.body.refreshToken;
+        let tokenType = req.body.tokenType;
         let bank = req.body.bank;
         let account = req.body.account;
-        if (!token) {
+        if (!accessToken) {
             res.status(500).json({res: 'need to token'});
             return;
         }
         // first get naver user info by token
-        AuthController.getNaverUserInfo(token).then((body) => {
+        AuthController.getNaverUserInfo(accessToken).then((body) => {
             body['bank'] = bank;
             body['account'] = account;
+            body['refreshToken'] = refreshToken;
+            body['tokenType'] = tokenType;
             return Promise.resolve(body);
         }).then((body) => {
             if (body.hasOwnProperty('message') && body['message'] === 'success') {
@@ -45,7 +50,7 @@ const AuthRouter = {
             }else return Promise.reject('Naver auth crashed');
         }).then((body) => {
             AuthController.authByNaver(body).then((result) => {
-                res.status(200).json({res: result || 'Signup success by naver'});
+                res.status(200).json({res: result});
             }).catch((err) => {
                 res.status(500).json({res: err});
             });

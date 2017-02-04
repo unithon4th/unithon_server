@@ -42,7 +42,9 @@ export default class AuthController {
             naverAuth: _obj.naverAuth,
             bank: _obj.bank,
             account: _obj.account,
-            token: _obj.token
+            accessToken: _obj.token,
+            refreshToken: _obj.refreshToken,
+            tokenType: _obj.tokenType
         };
         return new Promise((resolve, reject) => {
             AuthService.authByNaver(obj).then((body) => {

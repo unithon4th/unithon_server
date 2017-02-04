@@ -7,15 +7,6 @@
 /** External dependencies **/
 const mongoose_1 = require("mongoose");
 /** Internal dependencies **/
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-/*
- user = new UserModel({
- nickname: obj.nickname,});
- */
-=======
->>>>>>> Stashed changes
 let RecordSchema = new mongoose_1.Schema({
     recordId: {
         type: String,
@@ -86,10 +77,6 @@ let ChatSchema = new mongoose_1.Schema({
         required: true
     }
 });
-<<<<<<< Updated upstream
-=======
->>>>>>> 2583cc94bded84010a2d95dccd116664ef55f6e5
->>>>>>> Stashed changes
 let UserSchema = new mongoose_1.Schema({
     username: {
         type: String,
@@ -110,6 +97,9 @@ let UserSchema = new mongoose_1.Schema({
         type: Number,
         required: true,
     },
+    accessToken: String,
+    refreshToken: String,
+    tokenType: String,
     profile_image: String,
     gender: String,
     naverId: String,
