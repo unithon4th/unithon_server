@@ -22,7 +22,7 @@ const ChatRouter = {
                         action: data['result']['metadata']['intentName'],
                         resolvedQuery: data['result']['resolvedQuery'],
                         speech: data['result']['speech'],
-                        parameters: data['result']['parameters']    
+                        parameters: data['result']['parameters']
                     }
                 }
             );
