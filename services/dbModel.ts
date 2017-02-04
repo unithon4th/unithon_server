@@ -8,6 +8,54 @@
 import {Document, model, Model, Schema} from 'mongoose';
 
 /** Internal dependencies **/
+let RecordSchema: Schema = new Schema({
+    recordId : {
+        type: String,
+        required: true,
+        unique: true
+    },
+    fromId:{
+        type: String,
+        required: true 
+    },
+    toId:{
+        type: String,
+        required: true 
+    },
+    amount:{
+        type:Number,
+        required: true
+    }
+})
+
+let BankSchema: Schema = new Schema({
+    accountId: {
+        type: String,
+        required: true,
+        unique: true 
+    },
+    userId:{
+        type: String,
+        required: true
+    },
+    records:[
+        {
+            recordId : {
+                type: String,
+                unique: true
+            },
+            fromId:{
+                type: String
+            },
+            toId:{
+                type: String
+            },
+            amount:{
+                type:Number
+            }
+        }
+    ]
+});
 
 let ChatSchema: Schema = new Schema({
     chatSeqNo: {
@@ -50,6 +98,12 @@ let UserSchema: Schema = new Schema({
     data: [Schema.Types.Mixed]
 });
 
+interface IBank extends Document {
+    accountId: string;
+    userId: string;
+    records: any[];
+}
+
 interface IUser extends Document {
     username: string;
     password: string;
@@ -68,3 +122,4 @@ interface IChat extends Document {
 
 export let UserModel: Model<IUser> = model<IUser>('User', UserSchema);
 export let ChatModel: Model<IChat> = model<IChat>('Chat', ChatSchema);
+export let BankModel: Model<IBank> = model<IBank>('Bank', BankSchema);

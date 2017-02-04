@@ -9,8 +9,6 @@ let bcrypt = require('bcrypt');
 var request = require('request');
 /** Internal dependencies **/
 const dbModel_1 = require("./dbModel");
-const dbModel_2 = require("./dbModel");
-const config_1 = require("./../config");
 class ChatService {
     constructor() {
     }
@@ -37,7 +35,7 @@ class ChatService {
     }
     static createChat(fromId, toId, chatText) {
         return new Promise((resolve, reject) => {
-            new dbModel_2.ChatModel({
+            new dbModel_1.ChatModel({
                 chatSeqNo: this.makeId(),
                 timestamp: Math.floor(Date.now() / 1000),
                 fromId: fromId,
@@ -75,7 +73,7 @@ class ChatService {
         });
     }
     static readUser(userId) {
-        return dbModel_2.ChatModel.find({
+        return dbModel_1.ChatModel.find({
             $or: [
                 {
                     'fromId': userId
@@ -84,26 +82,6 @@ class ChatService {
                     'toId': userId
                 }
             ]
-        });
-    }
-    static updateUser(userID, user) {
-        return dbModel_1.UserModel.update({ _id: userID }, { username: user.username });
-    }
-    static deleteUser(id) {
-        return dbModel_1.UserModel.remove({ _id: id });
-    }
-    static _encryptPassword(plaintextPassword) {
-        return new Promise((resolve, reject) => {
-            bcrypt.hash(plaintextPassword, config_1.default.BCRYPT_SALT_ROUNDS).then((hash) => {
-                resolve(hash);
-            });
-        });
-    }
-    static _verifyPassword(plainPassword, hash) {
-        return new Promise((resolve, reject) => {
-            bcrypt.compare(plainPassword, hash).then((res) => {
-                resolve(res);
-            });
         });
     }
 }

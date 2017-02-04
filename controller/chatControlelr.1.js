@@ -1,5 +1,4 @@
 "use strict";
-/** Internal dependencies **/
 const chatService_1 = require("./../services/chatService");
 class ChatController {
     constructor() {

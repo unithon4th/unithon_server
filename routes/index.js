@@ -8,6 +8,7 @@
 const express = require("express");
 const passport = require("passport");
 /** Internal dependencies **/
+const bankRouter_1 = require("./bankRouter");
 const chatRouter_1 = require("./chatRouter");
 const userRouter_1 = require("./userRouter");
 const mainRouter_1 = require("./mainRouter");
@@ -16,9 +17,10 @@ const authMiddleware_1 = require("./../middleware/authMiddleware");
 let router = express.Router();
 router.get('/', mainRouter_1.default);
 // User CRUD Logic
+router.post('/bank/read', bankRouter_1.default.read);
+router.post('/bank/deposit', bankRouter_1.default.deposit);
 router.post('/chat/read', chatRouter_1.default.read);
 router.post('/chat/add', chatRouter_1.default.add);
-router.post('/chat/test', chatRouter_1.default.test);
 router.post('/auth/signup', userRouter_1.default.create);
 router.get('/user/:id', userRouter_1.default.read); // Todo: Only dev test
 router.put('/user/:id', userRouter_1.default.update);

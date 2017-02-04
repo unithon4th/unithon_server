@@ -7,29 +7,9 @@
 /** External dependencies **/
 
 /** Internal dependencies **/
-import UserController from './../controller/userControlelr';
 import ChatController from './../controller/chatControlelr';
 
 const ChatRouter = {
-    test(req,res){
-        let userId = req.body.userId
-        let chatText = req.body.chatText
-        ChatController.add(userId, chatText).then((data) => {
-            res.status(200).json(
-                {
-                    res: 'success',
-                    data: {
-                        action: data['result']['metadata']['intentName'],
-                        resolvedQuery: data['result']['resolvedQuery'],
-                        speech: data['result']['speech'],
-                        parameters: data['result']['parameters']    
-                    }
-                }
-            );
-        }).catch((err) => {
-            res.status(500).json({errmsg: err});
-        });
-    },
     add(req, res){
         let userId = req.body.userId;
         let chatText = req.body.chatText;

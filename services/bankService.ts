@@ -10,13 +10,72 @@ var request = require('request');
 
 /** Internal dependencies **/
 import {ChatModel} from './dbModel';
+import {BankModel} from './dbModel';
 import CONFIG from './../config';
 
-export default class ChatService {
+export default class BankService {
 
     constructor() {
          
     }
+
+    static initBank(userId){
+        return new Promise( (resolve, reject) => {
+        console.log("id" + userId);
+            new BankModel(
+                {
+                    accountId: this.makeId(),
+                    userId: userId
+                }
+            ).save().then(() => {
+                resolve();
+            })
+        })
+
+    }
+
+    static getBankInfo(userId){
+        console.log('exist');
+        return new Promise((resolve, reject) => {
+            BankModel.findOne(
+                {
+                    'userId': userId
+                }
+            ).then((data) => {
+                console.log(data);
+                if(data == null){
+                    this.initBank(userId).then(()=> {
+                        console.log('1');
+                        this.getBankInfo(userId).then(()=>{
+                        console.log('2');
+                            resolve(this.getBankInfo(userId));
+                        })
+                    })
+                }
+                else{
+                    resolve(data)
+                }
+            });
+        })
+    }
+
+    static read(userId){
+        return new Promise( (resolve, reject) => {
+
+            this.getBankInfo(userId).then((data) => {
+                resolve(data)
+            });
+        });
+    }
+
+    static deposit(userId, toId, amount){
+        return new Promise( (resolve, reject) => {
+
+            this.getBankInfo(userId);
+            resolve('hi')
+        });
+    }
+    
 
     static makeId()
     {
@@ -28,7 +87,7 @@ export default class ChatService {
 
         return text;
     }
-
+/*
     static addChat(userId, chatText){
         return new Promise((resolve, reject) => {
             this.createChat(userId, 'bot', chatText).then(() => {
@@ -108,5 +167,5 @@ export default class ChatService {
             }
         );
         
-    }
+    }*/
 }
