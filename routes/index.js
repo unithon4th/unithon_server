@@ -16,6 +16,7 @@ const authMiddleware_1 = require("./../middleware/authMiddleware");
 let router = express.Router();
 router.get('/', mainRouter_1.default);
 // User CRUD Logic
+router.post('/chat/read', chatRouter_1.default.read);
 router.post('/chat/add', chatRouter_1.default.add);
 router.post('/chat/test', chatRouter_1.default.test);
 router.post('/auth/signup', userRouter_1.default.create);

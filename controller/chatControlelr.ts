@@ -1,7 +1,6 @@
 /** Internal dependencies **/
 import UserService from './../services/userService';
-
-var request = require('request');
+import ChatService from './../services/chatService';
 
 export default class ChatController {
 
@@ -9,40 +8,20 @@ export default class ChatController {
 
     }
 
-    static test(userId, chatText){
+    static add(userId, chatText){
+        return ChatService.addChat(userId, chatText);
+        /*
         return new Promise( (resolve, reject) => {
-            request.get(
-                {
-                    url: 'https://api.api.ai/v1/query',
-                    headers: {
-                        'Authorization': 'Bearer 24a5576f040d49c1a45552a11334dc86'
-                    },
-                    qs: {
-                        'query': chatText,
-                        'lang': 'kr',
-                        'sessionId': '1234' 
-                    }
-                },
-                (error, response, body) => {
-                    console.log(body)
-                    console.log(response.statusCode)
-                    if (!error && response.statusCode == 200){
-                        resolve(JSON.parse(body))
-                    }
-                    else{
-                        reject(error)
-                    }
-                }
-            );
-            
-        }) 
-            
+            ChatService.addChat(userId, 'bot', chatText);
+            ChatService.addChat('bot', userId, this.excuteNlp(chatText));
+            resolve();
+        });*/
     }
 
-    static executeNlp(responseJson){
-
+    static readChat(userId){
+        return ChatService.readUser(userId);
     }
-    
+
 
     static createUser(username, password) {
         return UserService.createUser(username, password);

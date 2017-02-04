@@ -9,6 +9,31 @@ import {Document, model, Model, Schema} from 'mongoose';
 
 /** Internal dependencies **/
 
+let ChatSchema: Schema = new Schema({
+    chatSeqNo: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    timestamp: {
+        type:Number,
+        required: true
+    },
+    fromId: {
+        type: String,
+        required: true
+    },
+    toId:{
+        type: String, 
+        required: true
+    },
+    chatText:{
+        type: String, 
+        required: true
+    }
+
+
+});
 
 let UserSchema: Schema = new Schema({
     username: {
@@ -33,4 +58,13 @@ interface IUser extends Document {
     data: any[];
 }
 
+interface IChat extends Document {
+    chatSeqNo: string;
+    timestamp: number;
+    fromId: string;
+    toId: string;
+    chatText: string;
+}
+
 export let UserModel: Model<IUser> = model<IUser>('User', UserSchema);
+export let ChatModel: Model<IChat> = model<IChat>('Chat', ChatSchema);

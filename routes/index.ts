@@ -20,6 +20,7 @@ let router = express.Router();
 router.get('/', MainRouter);
 
 // User CRUD Logic
+router.post('/chat/read', ChatRouter.read);
 router.post('/chat/add', ChatRouter.add);
 router.post('/chat/test', ChatRouter.test);
 router.post('/auth/signup', UserRouter.create);

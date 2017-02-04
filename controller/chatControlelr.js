@@ -1,35 +1,21 @@
 "use strict";
 /** Internal dependencies **/
 const userService_1 = require("./../services/userService");
-var request = require('request');
+const chatService_1 = require("./../services/chatService");
 class ChatController {
     constructor() {
     }
-    static test(userId, chatText) {
-        return new Promise((resolve, reject) => {
-            request.get({
-                url: 'https://api.api.ai/v1/query',
-                headers: {
-                    'Authorization': 'Bearer 24a5576f040d49c1a45552a11334dc86'
-                },
-                qs: {
-                    'query': chatText,
-                    'lang': 'kr',
-                    'sessionId': '1234'
-                }
-            }, (error, response, body) => {
-                console.log(body);
-                console.log(response.statusCode);
-                if (!error && response.statusCode == 200) {
-                    resolve(JSON.parse(body));
-                }
-                else {
-                    reject(error);
-                }
-            });
-        });
+    static add(userId, chatText) {
+        return chatService_1.default.addChat(userId, chatText);
+        /*
+        return new Promise( (resolve, reject) => {
+            ChatService.addChat(userId, 'bot', chatText);
+            ChatService.addChat('bot', userId, this.excuteNlp(chatText));
+            resolve();
+        });*/
     }
-    static executeNlp(responseJson) {
+    static readChat(userId) {
+        return chatService_1.default.readUser(userId);
     }
     static createUser(username, password) {
         return userService_1.default.createUser(username, password);
