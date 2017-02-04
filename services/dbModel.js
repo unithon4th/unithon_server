@@ -7,6 +7,25 @@
 /** External dependencies **/
 const mongoose_1 = require("mongoose");
 /** Internal dependencies **/
+let RecordSchema = new mongoose_1.Schema({
+    recordId: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    fromId: {
+        type: String,
+        required: true
+    },
+    toId: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    }
+});
 let BankSchema = new mongoose_1.Schema({
     accountId: {
         type: String,
@@ -70,9 +89,21 @@ let UserSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    age: Number,
-    friends: [String],
-    data: [mongoose_1.Schema.Types.Mixed]
+    name: String,
+    age: String,
+    bank: {
+        type: String,
+        required: true,
+    },
+    account: {
+        type: Number,
+        required: true,
+    },
+    profile_image: String,
+    gender: String,
+    naverId: String,
+    birthday: String,
+    nickname: String
 });
 exports.UserModel = mongoose_1.model('User', UserSchema);
 exports.ChatModel = mongoose_1.model('Chat', ChatSchema);

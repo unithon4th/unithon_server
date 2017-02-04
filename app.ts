@@ -24,7 +24,7 @@ let LocalStrategy = require('passport-local').Strategy;
 
 /** Intern al dependencies **/
 import {UserModel} from './services/dbModel';
-import UserService from './services/userService';
+import AuthService from './services/authService';
 import CONFIG from './config';
 
 
@@ -54,7 +54,7 @@ passport.use(new LocalStrategy(
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
             }
-            UserService._verifyPassword(password, user.password).then(res => {
+            AuthService._verifyPassword(password, user.password).then(res => {
                 if (!res) return done(null, false, { message: 'Incorrect password.' });
                 return done(null, user);
             });
@@ -67,7 +67,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    UserService.readUser(id).then((user) => {
+    AuthService.readUser(id).then((user) => {
         done(null, user);
     }).catch((err) => {
         done(err, 'error');

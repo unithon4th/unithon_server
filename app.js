@@ -21,7 +21,7 @@ let FacebookStrategy = require('passport-facebook').Strategy;
 let LocalStrategy = require('passport-local').Strategy;
 /** Intern al dependencies **/
 const dbModel_1 = require("./services/dbModel");
-const userService_1 = require("./services/userService");
+const authService_1 = require("./services/authService");
 const config_1 = require("./config");
 // Todo : passport Configuration 파일 분할
 passport.use(new FacebookStrategy({
@@ -47,7 +47,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
         if (!user) {
             return done(null, false, { message: 'Incorrect username.' });
         }
-        userService_1.default._verifyPassword(password, user.password).then(res => {
+        authService_1.default._verifyPassword(password, user.password).then(res => {
             if (!res)
                 return done(null, false, { message: 'Incorrect password.' });
             return done(null, user);
@@ -58,7 +58,7 @@ passport.serializeUser(function (user, done) {
     done(null, user);
 });
 passport.deserializeUser(function (id, done) {
-    userService_1.default.readUser(id).then((user) => {
+    authService_1.default.readUser(id).then((user) => {
         done(null, user);
     }).catch((err) => {
         done(err, 'error');

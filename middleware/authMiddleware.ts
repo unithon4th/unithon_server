@@ -7,7 +7,14 @@ const AuthMiddleware = {
         if (req.user) {
             next();
         } else {
-            res.redirect('/login');
+            res.redirect('/auth/login/alert');
+        }
+    },
+    userNaverAuthenticated: function(req, res, next) {
+        if (req.user) {
+            res.redirect('/auth/success');
+        } else {
+            next();
         }
     }
 };

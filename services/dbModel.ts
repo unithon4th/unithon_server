@@ -8,6 +8,25 @@
 import {Document, model, Model, Schema} from 'mongoose';
 
 /** Internal dependencies **/
+let RecordSchema: Schema = new Schema({
+    recordId : {
+        type: String,
+        required: true,
+        unique: true
+    },
+    fromId: {
+        type: String,
+        required: true
+    },
+    toId: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    }
+})
 
 let BankSchema: Schema = new Schema({
     accountId: {
@@ -15,11 +34,11 @@ let BankSchema: Schema = new Schema({
         required: true,
         unique: true
     },
-    userId:{
+    userId: {
         type: String,
         required: true
     },
-    records:[
+    records: [
         {
             recordId : {
                 type: String
@@ -27,14 +46,14 @@ let BankSchema: Schema = new Schema({
             timestamp:{
                 type: Number
             },
-            fromId:{
+            fromId: {
                 type: String
             },
-            toId:{
+            toId: {
                 type: String
             },
-            amount:{
-                type:Number
+            amount: {
+                type: Number
             }
         }
     ]
@@ -47,19 +66,19 @@ let ChatSchema: Schema = new Schema({
         unique: true
     },
     timestamp: {
-        type:Number,
+        type: Number,
         required: true
     },
     fromId: {
         type: String,
         required: true
     },
-    toId:{
-        type: String, 
+    toId: {
+        type: String,
         required: true
     },
-    chatText:{
-        type: String, 
+    chatText: {
+        type: String,
         required: true
     }
 
@@ -76,9 +95,22 @@ let UserSchema: Schema = new Schema({
         type: String,
         required: true,
     },
-    age: Number,
-    friends: [String],
-    data: [Schema.Types.Mixed]
+    name: String,
+    age: String,
+    bank: {
+        type: String,
+        required: true,
+    },
+    account: {
+        type: Number,
+        required: true,
+    },
+    profile_image: String,
+    gender: String,
+    naverId: String,
+    birthday: String,
+    nickname: String
+    // data: [Schema.Types.Mixed]
 });
 
 interface IBank extends Document {
@@ -90,10 +122,16 @@ interface IBank extends Document {
 
 interface IUser extends Document {
     username: string;
+    name: string;
     password: string;
-    age: number;
-    friends: string[];
-    data: any[];
+    age: string;
+    bank: string;
+    account: number;
+    profile_image: number;
+    gender: string;
+    naverId: string;
+    birthday: string;
+    // data: any[];
 }
 
 interface IChat extends Document {

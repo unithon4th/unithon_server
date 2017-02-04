@@ -14,7 +14,6 @@ import CONFIG from './../config';
 export default class UserService {
 
     constructor() {
-        
     }
 
     static createUser(username, password) {
