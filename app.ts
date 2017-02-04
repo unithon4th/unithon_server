@@ -29,9 +29,6 @@ import CONFIG from './config';
 
 
 // Todo : passport Configuration 파일 분할
-// console.log(CONFIG.FACEBOOK_CLIENT_ID);
-// console.log(CONFIG.FACEBOOK_CLIENT_SECRET);
-// console.log(CONFIG.FACEBOOK_REDIRECT_URL);
 passport.use(new FacebookStrategy({
       clientID: CONFIG.FACEBOOK_CLIENT_ID,
       clientSecret: CONFIG.FACEBOOK_CLIENT_SECRET,

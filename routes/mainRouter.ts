@@ -9,5 +9,5 @@
 /** Internal dependencies **/
 
 export default function MainRouter(req, res) {
-    res.status(200).json({res: 'success ' + 'unithon' + ' dev' + ' auto deploy'});
+    res.status(200).json({res: 'success ' + 'unithon' + ' dev' + ' auto deploy!'});
 }
