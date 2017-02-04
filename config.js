@@ -4,9 +4,9 @@
  */
 const CONFIG = {
     BCRYPT_SALT_ROUNDS: 10,
-    FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
-    FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
-    FACEBOOK_REDIRECT_URL: process.env.FACEBOOK_REDIRECT_URL || 'http://localhost:3000/auth/success',
+    FACEBOOK_CLIENT_ID: '1809217235998922',
+    FACEBOOK_CLIENT_SECRET: '26ebb900596da45eea1fefe2dccb4df3',
+    FACEBOOK_REDIRECT_URL: 'http://localhost:3000/auth/success',
     SESSION_SECRET_KEY: 'sdnfsdjfpdsfijdp!@#',
     MAILGUN_API_KEY: 'key-5071c2d41b08df0671c75464deda33f3',
     MAILGUN_DOMAIN: 'sandbox9c41f305e6c04852a25aa8d705b3a4c7.mailgun.org',
