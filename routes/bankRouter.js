@@ -10,7 +10,7 @@ const bankControlelr_1 = require("./../controller/bankControlelr");
 const BankRouter = {
     read(req, res) {
         console.log(req.query);
-        var userId = req.query.userId;
+        let userId = req.query.userId;
         bankControlelr_1.default.read(userId).then((data) => {
             res.status(200).json({
                 res: 'success',
@@ -21,7 +21,7 @@ const BankRouter = {
         });
     },
     withdraw(req, res) {
-        var userId = req.body.userId;
+        let userId = req.body.userId;
         var toId = req.body.toId;
         var amount = req.body.amount;
         let name = req.body.name;
