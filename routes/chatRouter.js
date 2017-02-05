@@ -12,13 +12,14 @@ const ChatRouter = {
         let userId = req.body.userId;
         let chatText = req.body.chatText;
         chatControlelr_1.default.add(userId, chatText).then((data) => {
-            console.log(data['result']['parameters']);
             if (Object.keys(data['result']['parameters']).length === 0) {
                 data['result']['parameters'] = {
                     'money': 'wrong',
                     'name': 'wrong'
                 };
             }
+            console.log(data['result']['parameters']);
+            data['result']['parameters']['money'] += '0';
             res.status(200).json({
                 res: 'success',
                 data: {

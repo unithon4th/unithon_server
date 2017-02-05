@@ -15,15 +15,17 @@ const ChatRouter = {
         let chatText = req.body.chatText;
 
         ChatController.add(userId, chatText).then((data) => {
-
-            console.log(data['result']['parameters']);
-
             if (Object.keys(data['result']['parameters']).length === 0) {
                 data['result']['parameters'] = {
                     'money': 'wrong',
                     'name': 'wrong'
                 };
             }
+
+            console.log(data['result']['parameters']);
+            data['result']['parameters']['money'] += '0';
+
+
 
             res.status(200).json(
                 {
