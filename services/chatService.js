@@ -61,8 +61,8 @@ class ChatService {
                     'sessionId': '1234'
                 }
             }, (error, response, body) => {
-                console.log(body);
-                console.log(response.statusCode);
+                // console.log(body);
+                // console.log(response.statusCode);
                 if (!error && response.statusCode === 200) {
                     resolve(JSON.parse(body));
                 }

@@ -33,6 +33,22 @@ export default class BankService {
         })
 
     }
+
+    static getBankByType(userId, type) {
+        let regex = /.*type.*/;
+        return new Promise((resolve, reject) => {
+            BankModel.findOne(
+                {
+                    'userId': userId,
+                }).then((data) => {
+                console.log(data);
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+
+    };
     
     static getBankInfo(userId){
         console.log('exist');
@@ -42,7 +58,7 @@ export default class BankService {
                     'userId': userId
                 }
             ).then((data) => {
-                console.log(data);
+                // console.log(data);
                 if(data == null){
                     this.initBank(userId).then(()=> {
                         this.getBankInfo(userId).then(()=>{
@@ -61,10 +77,10 @@ export default class BankService {
                         }
                     }
                     var result = JSON.parse(JSON.stringify(data));
-                    console.log(result);
+                    // console.log(result);
                     result['money'] = money;
-                    console.log(money);
-                    console.log(result);
+                    // console.log(money);
+                    // console.log(result);
                     resolve(result)
                 }
             });
@@ -80,7 +96,7 @@ export default class BankService {
         });
     }
 
-    static withdraw(userId, toId, amount){
+    static withdraw(userId, toId, amount, name, date){
 
         return new Promise( (resolve, reject) => {
 
@@ -106,7 +122,9 @@ export default class BankService {
                                     fromId: userId,
                                     toId: toId,
                                     amount: amount,
-                                    timestamp: Date.now()
+                                    name: name,
+                                    timestamp: date || Date.now(),
+                                    status: 'out'
                                 }
                             }
                         }
@@ -122,7 +140,9 @@ export default class BankService {
                                         fromId: toId,
                                         toId: userId,
                                         amount: amount,
-                                        timestamp: Date.now()
+                                        name: name,
+                                        timestamp: date || Date.now(),
+                                        status: 'in'
                                     }
                                 }
                             }
@@ -130,7 +150,8 @@ export default class BankService {
                             resolve({
                                 'recoredSendId': recordSendId,
                                 'recordRecvId':recordRecvId,
-                                'totalAmount': parseInt(data['money'])-parseInt(amount)
+                                'totalAmount': parseInt(data['money'])-parseInt(amount),
+                                name: name
                             })
                         });
                     });
@@ -141,7 +162,11 @@ export default class BankService {
         });
     }
  
-    static deposit(userId, amount){
+    static deposit(userId, amount, name, date){
+
+        console.log('=========');
+        // console.log(name);
+        console.log('=========');
 
         return new Promise( (resolve, reject) => {
 
@@ -157,7 +182,9 @@ export default class BankService {
                                 fromId: userId,
                                 toId: userId,
                                 amount: amount,
-                                timestamp: Date.now()
+                                name: name,
+                                timestamp: date || Date.now(),
+                                status: 'in'
                             }
                         }
                     }

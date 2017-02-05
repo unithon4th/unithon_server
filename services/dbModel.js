@@ -24,7 +24,8 @@ let RecordSchema = new mongoose_1.Schema({
     amount: {
         type: Number,
         required: true
-    }
+    },
+    name: String
 });
 let BankSchema = new mongoose_1.Schema({
     accountId: {
@@ -36,6 +37,7 @@ let BankSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    name: String,
     records: [
         {
             recordId: {
@@ -52,7 +54,13 @@ let BankSchema = new mongoose_1.Schema({
             },
             amount: {
                 type: Number
-            }
+            },
+            name: {
+                type: String
+            },
+            status: {
+                type: String
+            },
         }
     ]
 });

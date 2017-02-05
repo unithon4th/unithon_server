@@ -24,6 +24,15 @@ class ChatController {
     static add(userId, chatText) {
         return new Promise((resolve, reject) => {
             chatService_1.default.addChat(userId, chatText).then((data) => {
+                let type;
+                if (data['result']['card'])
+                    type = '카드';
+                else if (data['result']['elec'])
+                    type = '전기';
+                else if (data['result']['gas'])
+                    type = '가스';
+                else if (data['result']['water'])
+                    type = '수도';
                 for (let i = 0; i < unknownChatList.length; i++) {
                     if (unknownChatList[i] === data['result']['speech']) {
                         data['result']['speech'] = dontKnowList[Math.floor(Math.random() * dontKnowList.length)];
@@ -39,6 +48,7 @@ class ChatController {
                     // 읽어오기 => 임당
                     let reqStr = data['result']['resolvedQuery'];
                     if (reqStr.includes('알려줘')) {
+                        data['result']['speech'] += '요금은 ';
                         data['result']['speech'] += '임당';
                         endFlag = true;
                     }

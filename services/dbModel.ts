@@ -25,7 +25,8 @@ let RecordSchema: Schema = new Schema({
     amount: {
         type: Number,
         required: true
-    }
+    },
+    name: String
 });
 
 let BankSchema: Schema = new Schema({
@@ -38,6 +39,7 @@ let BankSchema: Schema = new Schema({
         type: String,
         required: true
     },
+    name: String,
     records: [
         {
             recordId : {
@@ -54,7 +56,13 @@ let BankSchema: Schema = new Schema({
             },
             amount: {
                 type: Number
-            }
+            },
+            name: {
+                type: String
+            },
+            status: {
+                type: String
+            },
         }
     ]
 });
@@ -119,6 +127,7 @@ let UserSchema: Schema = new Schema({
 interface IBank extends Document {
     accountId: string;
     userId: string;
+    name: string;
     timestamp: Date;
     records: any[];
 }

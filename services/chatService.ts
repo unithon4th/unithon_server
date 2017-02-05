@@ -13,7 +13,6 @@ import {ChatModel} from './dbModel';
 import CONFIG from './../config';
 
 export default class ChatService {
-
     constructor() {
     }
 
@@ -60,7 +59,7 @@ export default class ChatService {
         });
     }
 
-    static executeNlp(chatText){
+    static executeNlp(chatText) {
         return new Promise( (resolve, reject) => {
             request.get(
                 {
@@ -75,8 +74,8 @@ export default class ChatService {
                     }
                 },
                 (error, response, body) => {
-                    console.log(body);
-                    console.log(response.statusCode);
+                    // console.log(body);
+                    // console.log(response.statusCode);
                     if (!error && response.statusCode === 200) {
                         resolve(JSON.parse(body));
                     }

@@ -24,11 +24,13 @@ const BankRouter = {
         var userId = req.body.userId;
         var toId = req.body.toId;
         var amount = req.body.amount;
+        let name = req.body.name;
+        let date = req.body.date;
         if (userId == toId) {
             res.status(500).json({ errmsg: "you can't send it to yourself" });
         }
         else {
-            bankControlelr_1.default.withdraw(userId, toId, amount).then((data) => {
+            bankControlelr_1.default.withdraw(userId, toId, amount, name, date).then((data) => {
                 res.status(200).json({
                     res: 'success',
                     data: data
@@ -42,7 +44,9 @@ const BankRouter = {
         var userId = req.body.userId;
         var toId = req.body.toId;
         var amount = req.body.amount;
-        bankControlelr_1.default.deposit(userId, amount).then((data) => {
+        let name = req.body.name;
+        let date = req.body.date;
+        bankControlelr_1.default.deposit(userId, amount, name, date).then((data) => {
             res.status(200).json({
                 res: 'success',
                 data: data

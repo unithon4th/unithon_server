@@ -19,10 +19,10 @@ const ChatRouter = {
                 {
                     res: 'success',
                     data: {
-                        action: data['result']['metadata']['intentName'],
-                        resolvedQuery: data['result']['resolvedQuery'],
-                        speech: data['result']['speech'],
-                        parameters: data['result']['parameters']
+                        action: data['result']['metadata']['intentName'] || 'wrong',
+                        resolvedQuery: data['result']['resolvedQuery']  || 'wrong',
+                        speech: data['result']['speech']  || 'wrong',
+                        parameters: data['result']['parameters']  || 'wrong'
                     }
                 }
             );

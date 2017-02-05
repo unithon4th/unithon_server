@@ -22,13 +22,27 @@ class BankService {
             });
         });
     }
+    static getBankByType(userId, type) {
+        let regex = /.*type.*/;
+        return new Promise((resolve, reject) => {
+            dbModel_1.BankModel.findOne({
+                'userId': userId,
+            }).then((data) => {
+                console.log(data);
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    ;
     static getBankInfo(userId) {
         console.log('exist');
         return new Promise((resolve, reject) => {
             dbModel_1.BankModel.findOne({
                 'userId': userId
             }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 if (data == null) {
                     this.initBank(userId).then(() => {
                         this.getBankInfo(userId).then(() => {
@@ -49,10 +63,10 @@ class BankService {
                         }
                     }
                     var result = JSON.parse(JSON.stringify(data));
-                    console.log(result);
+                    // console.log(result);
                     result['money'] = money;
-                    console.log(money);
-                    console.log(result);
+                    // console.log(money);
+                    // console.log(result);
                     resolve(result);
                 }
             });
@@ -65,7 +79,7 @@ class BankService {
             });
         });
     }
-    static withdraw(userId, toId, amount) {
+    static withdraw(userId, toId, amount, name, date) {
         return new Promise((resolve, reject) => {
             this.getBankInfo(userId).then((data) => {
                 if (data['money'] < amount) {
@@ -85,7 +99,9 @@ class BankService {
                                 fromId: userId,
                                 toId: toId,
                                 amount: amount,
-                                timestamp: Date.now()
+                                name: name,
+                                timestamp: date || Date.now(),
+                                status: 'out'
                             }
                         }
                     }).then(() => {
@@ -98,14 +114,17 @@ class BankService {
                                     fromId: toId,
                                     toId: userId,
                                     amount: amount,
-                                    timestamp: Date.now()
+                                    name: name,
+                                    timestamp: date || Date.now(),
+                                    status: 'in'
                                 }
                             }
                         }).then(() => {
                             resolve({
                                 'recoredSendId': recordSendId,
                                 'recordRecvId': recordRecvId,
-                                'totalAmount': parseInt(data['money']) - parseInt(amount)
+                                'totalAmount': parseInt(data['money']) - parseInt(amount),
+                                name: name
                             });
                         });
                     });
@@ -113,7 +132,10 @@ class BankService {
             });
         });
     }
-    static deposit(userId, amount) {
+    static deposit(userId, amount, name, date) {
+        console.log('=========');
+        // console.log(name);
+        console.log('=========');
         return new Promise((resolve, reject) => {
             this.getBankInfo(userId).then((data) => {
                 dbModel_1.BankModel.update({
@@ -125,7 +147,9 @@ class BankService {
                             fromId: userId,
                             toId: userId,
                             amount: amount,
-                            timestamp: Date.now()
+                            name: name,
+                            timestamp: date || Date.now(),
+                            status: 'in'
                         }
                     }
                 }).then(() => {
