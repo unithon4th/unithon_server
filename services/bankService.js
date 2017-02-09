@@ -13,12 +13,27 @@ class BankService {
     }
     static initBank(userId) {
         return new Promise((resolve, reject) => {
-            console.log("id" + userId);
+            console.log('id' + userId);
             new dbModel_1.BankModel({
                 accountId: this.makeId(),
                 userId: userId
             }).save().then(() => {
                 resolve();
+            });
+        });
+    }
+    static imdang(data, type, userId) {
+        return new Promise((resolve, reject) => {
+            dbModel_1.BankModel.findOne({
+                'userId': userId
+            }, {
+                '$elemMatch': {
+                    'name': new RegExp(type, 'i')
+                }
+            }).then((item) => {
+                resolve(item);
+            }).catch(error => {
+                reject(error);
             });
         });
     }

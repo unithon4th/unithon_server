@@ -33,10 +33,15 @@ export default class ChatService {
                     console.log(nlpResult);
                     console.log('speech : ' + nlpResult['result']['speech']);
                     this.createChat('bot', userId, nlpResult['result']['speech']).then(() => {
-                    console.log('hihihi');
                         resolve(nlpResult);
+                    }).catch((err) => {
+                        console.log(err);
                     });
+                }).catch((err) => {
+                    console.log(err);
                 });
+            }).catch(() => {
+                console.log(err);
             });
         });
     }
@@ -66,7 +71,7 @@ export default class ChatService {
                     url: 'https://api.api.ai/v1/query',
                     headers: {
                         'Authorization': 'Bearer 24a5576f040d49c1a45552a11334dc86'
-                    },
+                    }8,
                     qs: {
                         'query': chatText,
                         'lang': 'kr',

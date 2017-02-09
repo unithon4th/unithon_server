@@ -25,8 +25,6 @@ const ChatRouter = {
             console.log(data['result']['parameters']);
             data['result']['parameters']['money'] += '0';
 
-
-
             res.status(200).json(
                 {
                     res: 'success',

@@ -30,11 +30,11 @@ export default class ChatController {
     static add(userId, chatText) {
         return new Promise((resolve, reject) => {
             ChatService.addChat(userId, chatText).then((data) => {
-                let type;
-                if (data['result']['card']) type = '카드';
-                else if (data['result']['elec']) type = '전기';
-                else if (data['result']['gas']) type = '가스';
-                else if (data['result']['water']) type = '수도';
+                let type = '';
+                if (data['result']['parameters']['card']) type += data['result']['parameters']['card'];
+                else if (data['result']['parameters']['elec']) type += data['result']['parameters']['elec'];
+                else if (data['result']['parameters']['gas']) type += data['result']['parameters']['gas'];
+                else if (data['result']['parameters']['water']) type += data['result']['parameters']['water'];
 
                 for (let i = 0; i < unknownChatList.length; i++) {
                     if (unknownChatList[i] === data['result']['speech']) {
@@ -43,25 +43,23 @@ export default class ChatController {
                         break;
                     }
                 }
+                resolve(data);
                 /*
                  아는 말이 나왔을때 => 세종(알림)인지 심사임당(읽어오기)
                  */
+                /*
                 if (data['result']['category'] !== '다보탑') { // 알림 or 읽어오기
-                    let endFlag = false;
-                    // 읽어오기 => 임당
-                    let reqStr = data['result']['resolvedQuery'];
-                    if (reqStr.includes('알려줘')) {
-                        data['result']['speech'] += '요금은 ';
-                        data['result']['speech'] += '임당';
-                        endFlag = true;
-                    };
-                    // 등록
-                    if (!endFlag && reqStr.includes('알림') || reqStr.includes('등록') ) {
-                        endFlag = true;
-                    }
+                    this.imdang(data, type, userId).then((result) => {
+                        resolve(result);
+                    }).catch(() => {
+                        reject();
+                    });
+                } else {
+                    resolve(data);
                 }
-                resolve(data);
+                */
             }).catch((error) => {
+                console.log(error);
                 reject(error);
             });
         });
@@ -73,8 +71,43 @@ export default class ChatController {
         });*/
     }
 
-    static readChat(userId){
+    static readChat(userId) {
         return ChatService.readUser(userId);
+    }
+
+    static imdang(data, type, userId) {
+        return new Promise((resolve, reject) => {
+            data['result']['category'] = '심사임당';
+            let endFlag = false;
+            // 읽어오기 => 임당
+            let reqStr = data['result']['resolvedQuery'];
+            if (reqStr.includes('알려줘')) {
+                data['result']['speech'] += ' ' + type + '은(는)';
+                // resolve
+                data['result']['speech'] += ' 임당';
+                endFlag = true;
+            };
+
+            // 등록
+            if (!endFlag && reqStr.includes('알림') || reqStr.includes('등록') ) {
+                resolve('알림을 등록하였습니다.');
+            }
+
+            // 공과금
+            /*
+            BankService.imdang(data, type, userId).then((item) => {
+                // console.log('item');
+                // console.log(item);
+            }).catch((err) => {
+                // console.log('error');
+                // console.log(err);
+            });
+            */
+
+            resolve(data);
+
+
+        });
     }
 
 }

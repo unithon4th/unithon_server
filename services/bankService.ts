@@ -16,12 +16,11 @@ import CONFIG from './../config';
 export default class BankService {
 
     constructor() {
-         
     }
 
     static initBank(userId){
         return new Promise( (resolve, reject) => {
-        console.log("id" + userId);
+        console.log('id' + userId);
             new BankModel(
                 {
                     accountId: this.makeId(),
@@ -29,9 +28,25 @@ export default class BankService {
                 }
             ).save().then(() => {
                 resolve();
-            })
-        })
+            });
+        });
 
+    }
+
+    static imdang(data, type, userId) {
+        return new Promise((resolve, reject) => {
+            BankModel.findOne({
+                'userId': userId
+            }, {
+                '$elemMatch': {
+                    'name' : new RegExp(type, 'i')
+                }
+            }).then((item) => {
+                resolve(item);
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
     static getBankByType(userId, type) {
